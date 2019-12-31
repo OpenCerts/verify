@@ -1,0 +1,101 @@
+{
+  "name": "@govtechsg/opencerts-verify",
+  "version": "0.0.0-development",
+  "description": "Library to verify any opencerts document",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Open-Attestation/oa-verify.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "coverage": "npm test -- --coverage",
+    "postcoverage": "open-cli coverage/lcov-report/index.html",
+    "lint": "eslint . --ext js,ts,tsx",
+    "lint:fix": "npm run lint -- --fix",
+    "docs": "documentation readme src --section=API",
+    "postdocs": "git add README.md",
+    "clean": "rimraf dist",
+    "prebuild": "npm run docs && npm run clean",
+    "build": "tsc --emitDeclarationOnly && babel src -d dist --ignore src/**/*.spec.ts,src/**/*.test.ts -x .js,.ts,.tsx",
+    "preversion": "npm run lint && npm test && npm run build",
+    "semantic-release": "semantic-release",
+    "commit": "git-cz",
+    "commit:retry": "git-cz --retry",
+    "commitmsg": "commitlint -e",
+    "commitlint-circle": "commitlint-circle"
+  },
+  "types": "dist/ts/src",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix --ext js,ts,tsx",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@govtechsg/oa-verify": "3.0.3",
+    "@govtechsg/open-attestation": "3.1.0",
+    "debug": "4.1.1",
+    "node-fetch": "2.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.7.7",
+    "@babel/core": "7.7.7",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.7.4",
+    "@babel/plugin-proposal-optional-chaining": "7.7.5",
+    "@babel/preset-env": "7.7.7",
+    "@babel/preset-typescript": "7.7.7",
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "@commitlint/prompt": "8.2.0",
+    "@ls-age/commitlint-circle": "1.0.0",
+    "@types/debug": "4.1.5",
+    "@types/jest": "24.0.25",
+    "@types/node-fetch": "2.5.4",
+    "@typescript-eslint/eslint-plugin": "2.14.0",
+    "@typescript-eslint/parser": "2.14.0",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "24.9.0",
+    "commitizen": "4.0.3",
+    "documentation": "12.1.4",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-prettier": "3.1.2",
+    "git-cz": "3.3.0",
+    "husky": "3.1.0",
+    "jest": "24.9.0",
+    "lint-staged": "9.5.0",
+    "open-cli": "5.0.0",
+    "prettier": "1.19.1",
+    "rimraf": "3.0.0",
+    "semantic-release": "^16.0.0",
+    "semantic-release-npm-github-publish": "1.4.0",
+    "typescript": "3.7.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/@commitlint/prompt"
+    }
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}
