@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/OpenCerts/verify/compare/v1.0.0...v1.0.1) (2020-01-10)
+
+
+### Chores
+
+* add circle ci badge ([2c0b000](https://github.com/OpenCerts/verify/commit/2c0b00036f8368f23b70c839e180dc58df2c65cb))
+
 # 1.0.0 (2020-01-10)
 
 
