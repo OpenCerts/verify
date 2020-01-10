@@ -1,3 +1,10 @@
+# 1.0.0 (2020-01-10)
+
+
+### Features
+
+* initial commit ([b1db73b](https://github.com/OpenCerts/verify/commit/b1db73b17a818f15403d1511a8e5d4ea9ef6cdc6))
+
 ## [1.6.2](https://github.com/rjchow/nod/compare/v1.6.1...v1.6.2) (2019-12-31)
 
 
