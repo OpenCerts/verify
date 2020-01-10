@@ -84,7 +84,6 @@
     "prettier": "1.19.1",
     "rimraf": "3.0.0",
     "semantic-release": "^16.0.0",
-    "semantic-release-npm-github-publish": "1.4.0",
     "typescript": "3.7.4"
   },
   "publishConfig": {
