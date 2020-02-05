@@ -22,12 +22,10 @@ describe("verify", () => {
       },
       {
         data: {
-          details: [
-            {
-              address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
-              issued: true
-            }
-          ],
+          details: {
+            address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
+            issued: true
+          },
           issuedOnAll: true
         },
         status: "VALID",
@@ -35,19 +33,21 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
-        message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method',
+        reason: {
+          code: 4,
+          codeString: "SKIPPED",
+          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
+        },
         name: "OpenAttestationEthereumTokenRegistryMinted",
         status: "SKIPPED",
         type: "DOCUMENT_STATUS"
       },
       {
         data: {
-          details: [
-            {
-              address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
-              revoked: false
-            }
-          ],
+          details: {
+            address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
+            revoked: false
+          },
           revokedOnAny: false
         },
         status: "VALID",
@@ -60,7 +60,11 @@ describe("verify", () => {
           status: "INVALID",
           value: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3"
         },
-        message: "Certificate issuer identity is invalid",
+        reason: {
+          code: 1,
+          codeString: "INVALID_IDENTITY",
+          message: "Certificate issuer identity is invalid"
+        },
         name: "OpenAttestationDnsTxt",
         status: "INVALID",
         type: "ISSUER_IDENTITY"
@@ -84,46 +88,64 @@ describe("verify", () => {
       {
         data: false,
         status: "INVALID",
-        message: "Certificate has been tampered with",
+        reason: {
+          code: 0,
+          codeString: "DOCUMENT_TAMPERED",
+          message: "Certificate has been tampered with"
+        },
         name: "OpenAttestationHash",
         type: "DOCUMENT_INTEGRITY"
       },
       {
         data: {
-          details: [
-            {
-              issued: false,
-              address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
-              error:
-                'invalid input argument (arg="document", reason="invalid bytes32 value", value="0xabcd", version=4.0.42)'
+          details: {
+            issued: false,
+            address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
+            reason: {
+              code: 3,
+              codeString: "ETHERS_UNHANDLED_ERROR",
+              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
             }
-          ],
+          },
           issuedOnAll: false
         },
-        message: "Certificate has not been issued",
+        reason: {
+          code: 3,
+          codeString: "ETHERS_UNHANDLED_ERROR",
+          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+        },
         status: "INVALID",
         name: "OpenAttestationEthereumDocumentStoreIssued",
         type: "DOCUMENT_STATUS"
       },
       {
-        message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method',
+        reason: {
+          code: 4,
+          codeString: "SKIPPED",
+          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
+        },
         name: "OpenAttestationEthereumTokenRegistryMinted",
         status: "SKIPPED",
         type: "DOCUMENT_STATUS"
       },
       {
         data: {
-          details: [
-            {
-              address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
-              error:
-                'invalid input argument (arg="document", reason="invalid bytes32 value", value="0xabcd", version=4.0.42)',
-              revoked: true
-            }
-          ],
+          details: {
+            address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
+            reason: {
+              code: 3,
+              codeString: "ETHERS_UNHANDLED_ERROR",
+              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+            },
+            revoked: true
+          },
           revokedOnAny: true
         },
-        message: "Certificate has been revoked",
+        reason: {
+          code: 3,
+          codeString: "ETHERS_UNHANDLED_ERROR",
+          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+        },
         status: "INVALID",
         name: "OpenAttestationEthereumDocumentStoreRevoked",
         type: "DOCUMENT_STATUS"

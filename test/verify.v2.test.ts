@@ -43,10 +43,14 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
-        message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method',
         name: "OpenAttestationEthereumTokenRegistryMinted",
         status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
+        type: "DOCUMENT_STATUS",
+        reason: {
+          code: 4,
+          codeString: "SKIPPED",
+          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
+        }
       },
       {
         data: {
@@ -63,10 +67,15 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
-        message: `Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type`,
         status: "SKIPPED",
         name: "OpenAttestationDnsTxt",
-        type: "ISSUER_IDENTITY"
+        type: "ISSUER_IDENTITY",
+        reason: {
+          code: 2,
+          codeString: "SKIPPED",
+          message:
+            'Document issuers doesn\'t have "documentStore" / "tokenRegistry" property or doesn\'t use DNS-TXT type'
+        }
       },
       {
         data: [
