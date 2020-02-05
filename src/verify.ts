@@ -32,6 +32,13 @@ type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
 const type = "ISSUER_IDENTITY";
 const name = "OpencertsRegistryVerifier";
 
+// NEVER EVER REPLACE OR CHANGE A VALUE :)
+// code for errors and invalid fragment
+export enum OpencertsRegistryCode {
+  INVALID_IDENTITY = 0,
+  SKIPPED = 1
+}
+
 const storeToFragment = (
   registry: Registry,
   store: string
@@ -58,7 +65,11 @@ const storeToFragment = (
       value: store,
       status: "INVALID" as "INVALID"
     },
-    message: `Document store ${store} not found in the registry`
+    reason: {
+      code: OpencertsRegistryCode.INVALID_IDENTITY,
+      codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
+      message: `Document store ${store} not found in the registry`
+    }
   };
 };
 
@@ -80,7 +91,11 @@ export const registryVerifier: Verifier<
       status: "SKIPPED",
       type,
       name,
-      message: `Document issuers doesn't have "documentStore" or "certificateStore" property or ${v3.Method.DocumentStore} method`
+      reason: {
+        code: OpencertsRegistryCode.SKIPPED,
+        codeString: OpencertsRegistryCode[OpencertsRegistryCode.SKIPPED],
+        message: `Document issuers doesn't have "documentStore" or "certificateStore" property or ${v3.Method.DocumentStore} method`
+      }
     });
   },
   verify: async document => {
@@ -104,7 +119,7 @@ export const registryVerifier: Verifier<
       message:
         status === "INVALID"
           ? `Document store ${
-              issuerFragments.find(fragment => fragment.status === "VALID")?.data
+              issuerFragments.find(fragment => fragment.status === "INVALID")?.data
             } not found in the registry`
           : undefined
     };

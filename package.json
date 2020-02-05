@@ -45,8 +45,8 @@
     ]
   },
   "dependencies": {
-    "@govtechsg/oa-verify": "3.0.3",
-    "@govtechsg/open-attestation": "3.1.0",
+    "@govtechsg/oa-verify": "3.1.1",
+    "@govtechsg/open-attestation": "3.1.1",
     "debug": "4.1.1",
     "node-fetch": "2.6.0"
   },
