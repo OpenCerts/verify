@@ -71,7 +71,11 @@ describe("verify", () => {
       },
       {
         data: { value: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3", status: "INVALID" },
-        message: "Document store 0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3 not found in the registry",
+        reason: {
+          code: 0,
+          codeString: "INVALID_IDENTITY",
+          message: "Document store 0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3 not found in the registry"
+        },
         name: "OpencertsRegistryVerifier",
         status: "INVALID",
         type: "ISSUER_IDENTITY"
