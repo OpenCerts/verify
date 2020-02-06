@@ -63,7 +63,12 @@ const storeToFragment = (
     name,
     data: {
       value: store,
-      status: "INVALID" as "INVALID"
+      status: "INVALID" as "INVALID",
+      reason: {
+        code: OpencertsRegistryCode.INVALID_IDENTITY,
+        codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
+        message: `Document store ${store} not found in the registry`
+      }
     },
     reason: {
       code: OpencertsRegistryCode.INVALID_IDENTITY,
@@ -116,12 +121,7 @@ export const registryVerifier: Verifier<
       name,
       status,
       data: issuerFragments.map(fragment => fragment.data),
-      message:
-        status === "INVALID"
-          ? `Document store ${
-              issuerFragments.find(fragment => fragment.status === "INVALID")?.data
-            } not found in the registry`
-          : undefined
+      reason: issuerFragments.find(fragment => fragment.reason)?.reason
     };
   }
 };

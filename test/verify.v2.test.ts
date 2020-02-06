@@ -91,7 +91,7 @@ describe("verify", () => {
             website: "https://www.tech.gov.sg"
           }
         ],
-        message: undefined,
+        reason: undefined,
         name: "OpencertsRegistryVerifier",
         status: "VALID",
         type: "ISSUER_IDENTITY"
@@ -107,6 +107,29 @@ describe("verify", () => {
       });
       it("should have invalid ISSUER_IDENTITY when document has one issuer that is not in registry", async () => {
         const fragments = await verify(documentWithOneCertificateStoreIssuerNotInRegistry, options);
+        // test registry fragment
+        expect(fragments.find(fragment => fragment.name === "OpencertsRegistryVerifier")).toStrictEqual({
+          data: [
+            {
+              status: "INVALID",
+              value: "0x8FC57204C35FB9317D91285EF52D6B892EC08CD3",
+              reason: {
+                code: 0,
+                codeString: "INVALID_IDENTITY",
+                message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry"
+              }
+            }
+          ],
+          reason: {
+            code: 0,
+            codeString: "INVALID_IDENTITY",
+            message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry"
+          },
+          name: "OpencertsRegistryVerifier",
+          status: "INVALID",
+          type: "ISSUER_IDENTITY"
+        });
+
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
       });
     });

@@ -70,7 +70,15 @@ describe("verify", () => {
         type: "ISSUER_IDENTITY"
       },
       {
-        data: { value: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3", status: "INVALID" },
+        data: {
+          value: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
+          status: "INVALID",
+          reason: {
+            code: 0,
+            codeString: "INVALID_IDENTITY",
+            message: "Document store 0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3 not found in the registry"
+          }
+        },
         reason: {
           code: 0,
           codeString: "INVALID_IDENTITY",
