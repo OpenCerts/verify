@@ -10,7 +10,7 @@ import {
 import fetch from "node-fetch";
 import { getData, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
 
-interface RegistryEntry {
+export interface RegistryEntry {
   name: string;
   displayCard: boolean;
   website?: string;
