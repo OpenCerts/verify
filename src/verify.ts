@@ -19,18 +19,18 @@ export interface RegistryEntry {
   logo?: string;
   id?: string;
 }
-interface Registry {
+export interface Registry {
   issuers: {
     [key: string]: RegistryEntry;
   };
 }
-type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
+export type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
   value: string;
   status: "VALID" | "INVALID";
 };
 
-const type = "ISSUER_IDENTITY";
-const name = "OpencertsRegistryVerifier";
+export const type = "ISSUER_IDENTITY";
+export const name = "OpencertsRegistryVerifier";
 
 // NEVER EVER REPLACE OR CHANGE A VALUE :)
 // code for errors and invalid fragment
