@@ -16,7 +16,7 @@ npm install @govtechsg/opencerts-verify
 import { documentMainnetValidWithCertificateStore } from "./test/fixtures/v2/document";
 import { verify, isValid } from "@govtechsg/opencerts-verify";
 
-const fragments = await verify(documentMainnetValidWithCertificateStore);
+const fragments = await verify(documentMainnetValidWithCertificateStore, { network: "ropsten" });
 console.log(fragments); // see below
 console.log(isValid(fragments)); // display true
 ```
