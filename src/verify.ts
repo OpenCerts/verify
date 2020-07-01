@@ -104,6 +104,12 @@ export const registryVerifier: Verifier<
   },
   verify: async document => {
     const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
+    const spreadsheet = new GoogleSpreadsheet("1nhhD3XvHh2Ql_hW27LNw01fC-_I6Azt_XzYiYGhkmAU"); // or use service credential
+    const apiKey = process.env.GOOGLE_API_KEY;
+    await spreadsheet.useApiKey(apiKey as string); // handle this later
+    await spreadsheet.loadInfo();
+    const sheet = spreadsheet.sheetsById[103906216];
+    console.log(await sheet.getRows());
 
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
