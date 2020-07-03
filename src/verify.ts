@@ -125,10 +125,10 @@ export const registryVerifier: Verifier<
 
       registry2.issuers[row.documentStore] = {
         name: row.name,
-        displayCard: row.displayCard
+        displayCard
       };
 
-      if (row.displayCard) {
+      if (displayCard) {
         registry2.issuers[row.documentStore] = {
           ...registry2.issuers[row.documentStore],
           website: row.website,
