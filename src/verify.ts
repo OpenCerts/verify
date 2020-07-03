@@ -103,21 +103,50 @@ export const registryVerifier: Verifier<
     });
   },
   verify: async document => {
-    const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
+    // const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
     const spreadsheet = new GoogleSpreadsheet("1nhhD3XvHh2Ql_hW27LNw01fC-_I6Azt_XzYiYGhkmAU"); // or use service credential
     const apiKey = process.env.GOOGLE_API_KEY;
     await spreadsheet.useApiKey(apiKey as string); // handle this later
     await spreadsheet.loadInfo();
     const sheet = spreadsheet.sheetsById[103906216];
-    console.log(await sheet.getRows());
+    const rows = await sheet.getRows();
+    const registry2: Registry = {
+      issuers: {}
+    };
+    // Cell method
+    // await sheet.loadCells("A:H");
+    // console.log(sheet.);
+    // const c = sheet.getCellByA1("C2");
+    // console.log(c.value, c.valueType);
+
+    rows.forEach((row: GoogleSpreadsheetRow): void => {
+      // console.log(row);
+      const displayCard = row.displayCard === "TRUE";
+
+      registry2.issuers[row.documentStore] = {
+        name: row.name,
+        displayCard: row.displayCard
+      };
+
+      if (row.displayCard) {
+        registry2.issuers[row.documentStore] = {
+          ...registry2.issuers[row.documentStore],
+          website: row.website,
+          email: row.email,
+          phone: row.phone,
+          logo: row.logo,
+          id: row.id
+        };
+      }
+    });
 
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
-      return storeToFragment(registry, documentData.proof.value);
+      return storeToFragment(registry2, documentData.proof.value);
     }
     const documentData = getData(document);
     const issuerFragments = documentData.issuers.map(issuer =>
-      storeToFragment(registry, (issuer.documentStore || issuer.certificateStore)!)
+      storeToFragment(registry2, (issuer.documentStore || issuer.certificateStore)!)
     );
     // if one issuer is valid => fragment status is valid otherwise if all issuers are invalid => invalid
     const status = issuerFragments.some(fragment => fragment.status === "VALID") ? "VALID" : "INVALID";
