@@ -1,4 +1,4 @@
-import { v2, WrappedDocument } from "@govtechsg/open-attestation";
+import { SchemaId, v2, WrappedDocument } from "@govtechsg/open-attestation";
 
 const issuerInRegistry = "0x532C9Ff853CA54370D7492cD84040F9f8099f11B";
 const issuerInRegistry2 = "0xdcA6Eea7024151c270b50FcA9E67161119B06BAD";
@@ -15,7 +15,7 @@ interface CustomDocument extends v2.OpenAttestationDocument {
 }
 
 export const documentMainnetValidWithCertificateStore: WrappedDocument<CustomDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   schema: "opencerts/1.4",
   data: {
     id: "ab89a9ae-954f-4d28-8b48-2a534d3a3d60:string:2018-SAF-01",
@@ -52,7 +52,7 @@ export const documentMainnetValidWithCertificateStore: WrappedDocument<CustomDoc
 };
 
 export const documentWithOneCertificateStoreIssuerInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -69,7 +69,7 @@ export const documentWithOneCertificateStoreIssuerInRegistry: WrappedDocument<v2
   }
 };
 export const documentWithOneCertificateStoreIssuerNotInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -86,7 +86,7 @@ export const documentWithOneCertificateStoreIssuerNotInRegistry: WrappedDocument
   }
 };
 export const documentWithOneDocumentStoreIssuerInRegistryAndValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -107,7 +107,7 @@ export const documentWithOneDocumentStoreIssuerInRegistryAndValidDnsTxt: Wrapped
   }
 };
 export const documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -128,7 +128,7 @@ export const documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt: Wrap
   }
 };
 export const documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -149,7 +149,7 @@ export const documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt: Wrapp
   }
 };
 export const documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -171,7 +171,7 @@ export const documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt: Wr
 };
 
 export const documentWithTwoCertificateStoreIssuerInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -193,7 +193,7 @@ export const documentWithTwoCertificateStoreIssuerInRegistry: WrappedDocument<v2
 };
 
 export const documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -222,7 +222,7 @@ export const documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt: Wrappe
   }
 };
 export const documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -251,7 +251,7 @@ export const documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSe
   }
 };
 export const documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -281,7 +281,7 @@ export const documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt: 
 };
 
 export const documentWithTwoCertificateStoreIssuerWithOneInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
@@ -303,7 +303,7 @@ export const documentWithTwoCertificateStoreIssuerWithOneInRegistry: WrappedDocu
 };
 
 export const documentWithTwoCertificateStoreIssuerNotInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: "open-attestation/2.0",
+  version: SchemaId.v2,
   data: {
     issuers: [
       {
