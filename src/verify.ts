@@ -4,11 +4,10 @@ import {
   Verifier,
   VerificationFragment,
   VerificationFragmentType,
-  VerificationManagerOptions,
-  isWrappedV3Document
+  VerificationManagerOptions
 } from "@govtechsg/oa-verify";
 import fetch from "node-fetch";
-import { getData, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
+import { getData, v2, v3, WrappedDocument, utils } from "@govtechsg/open-attestation";
 
 export interface RegistryEntry {
   name: string;
@@ -84,7 +83,7 @@ export const registryVerifier: Verifier<
   OpencertsRegistryVerificationFragmentData | OpencertsRegistryVerificationFragmentData[]
 > = {
   test: document => {
-    if (isWrappedV3Document(document)) {
+    if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
       return documentData.proof.method === v3.Method.DocumentStore;
     }
@@ -106,7 +105,7 @@ export const registryVerifier: Verifier<
   verify: async document => {
     const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
 
-    if (isWrappedV3Document(document)) {
+    if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
       return storeToFragment(registry, documentData.proof.value);
     }

@@ -1,10 +1,10 @@
-import { v3, WrappedDocument } from "@govtechsg/open-attestation";
+import { SchemaId, v3, WrappedDocument } from "@govtechsg/open-attestation";
 
 const issuerInRegistry = "0x532C9Ff853CA54370D7492cD84040F9f8099f11B";
 const issuerNotInRegistry = "0x8FC57204C35FB9317D91285EF52D6B892EC08CD3";
 
 export const documentWithDocumentStoreIssuerInRegistryAndValidDns: WrappedDocument<v3.OpenAttestationDocument> = {
-  version: "open-attestation/3.0",
+  version: SchemaId.v3,
   data: {
     reference: "23099a48-5d9f-463e-941f-28fffaabaec7:string:ABCXXXXX00",
     name: "f7da877a-ba98-4317-9434-67b072bd620a:string:Certificate of whatever",
@@ -36,7 +36,7 @@ export const documentWithDocumentStoreIssuerInRegistryAndValidDns: WrappedDocume
   }
 };
 export const documentWithDocumentStoreIssuerInRegistryAndInvalidDns: WrappedDocument<v3.OpenAttestationDocument> = {
-  version: "open-attestation/3.0",
+  version: SchemaId.v3,
   data: {
     reference: "23099a48-5d9f-463e-941f-28fffaabaec7:string:ABCXXXXX00",
     name: "f7da877a-ba98-4317-9434-67b072bd620a:string:Certificate of whatever",
@@ -68,7 +68,7 @@ export const documentWithDocumentStoreIssuerInRegistryAndInvalidDns: WrappedDocu
   }
 };
 export const documentWithDocumentStoreIssuerNotInRegistryAndValidDns: WrappedDocument<v3.OpenAttestationDocument> = {
-  version: "open-attestation/3.0",
+  version: SchemaId.v3,
   data: {
     reference: "23099a48-5d9f-463e-941f-28fffaabaec7:string:ABCXXXXX00",
     name: "f7da877a-ba98-4317-9434-67b072bd620a:string:Certificate of whatever",
@@ -101,7 +101,7 @@ export const documentWithDocumentStoreIssuerNotInRegistryAndValidDns: WrappedDoc
 };
 
 export const documentWithDocumentStoreIssuerNotInRegistryAndInvalidDns: WrappedDocument<v3.OpenAttestationDocument> = {
-  version: "open-attestation/3.0",
+  version: SchemaId.v3,
   data: {
     reference: "23099a48-5d9f-463e-941f-28fffaabaec7:string:ABCXXXXX00",
     name: "f7da877a-ba98-4317-9434-67b072bd620a:string:Certificate of whatever",
@@ -134,7 +134,7 @@ export const documentWithDocumentStoreIssuerNotInRegistryAndInvalidDns: WrappedD
 };
 
 export const documentRopstenValidWithDocumentStore: WrappedDocument<v3.OpenAttestationDocument> = {
-  version: "open-attestation/3.0",
+  version: SchemaId.v3,
   data: {
     reference: "8354acc7-74ab-4cab-be1c-1bf1e10a6920:string:ABCXXXXX00",
     name: "1c1df86c-168e-4519-805b-f38698e5b00e:string:Certificate of whatever",

@@ -29,6 +29,16 @@ describe("verify", () => {
         type: "DOCUMENT_INTEGRITY"
       },
       {
+        name: "OpenAttestationSignedProof",
+        reason: {
+          code: 4,
+          codeString: "SKIPPED",
+          message: "Document does not have a proof block"
+        },
+        status: "SKIPPED",
+        type: "DOCUMENT_STATUS"
+      },
+      {
         data: {
           details: [
             {
