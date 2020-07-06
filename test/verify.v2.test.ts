@@ -109,7 +109,7 @@ describe("verify", () => {
     ]);
     expect(isValid(fragments)).toStrictEqual(true);
   });
-  describe("IDENTITY_ISSUER", () => {
+  describe.only("IDENTITY_ISSUER", () => {
     describe("single issuer with certificate store", () => {
       it("should have valid ISSUER_IDENTITY when document has one issuer that is in registry", async () => {
         const fragments = await verify(documentWithOneCertificateStoreIssuerInRegistry, options);

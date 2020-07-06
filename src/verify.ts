@@ -22,6 +22,11 @@ export interface Registry {
     [key: string]: RegistryEntry;
   };
 }
+export interface GoogleSpreadsheetValues {
+  range: string;
+  majorDimension: string;
+  values: string[];
+}
 export type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
   value: string;
   status: "VALID" | "INVALID";
@@ -101,51 +106,42 @@ export const registryVerifier: Verifier<
       }
     });
   },
-  verify: async document => {
-    // const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
-    const spreadsheet = new GoogleSpreadsheet("1nhhD3XvHh2Ql_hW27LNw01fC-_I6Azt_XzYiYGhkmAU"); // or use service credential
-    const apiKey = process.env.GOOGLE_API_KEY;
-    await spreadsheet.useApiKey(apiKey as string); // handle this later
-    await spreadsheet.loadInfo();
-    const sheet = spreadsheet.sheetsById[103906216];
-    const rows = await sheet.getRows();
-    const registry2: Registry = {
+  verify: async (document, options) => {
+    const apiKey = options.googleApiKey || process.env.GOOGLE_API_KEY;
+    const spreadsheetId = "1nhhD3XvHh2Ql_hW27LNw01fC-_I6Azt_XzYiYGhkmAU";
+    const range = "Registry!A:H";
+    const data: GoogleSpreadsheetValues = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueRenderOption=UNFORMATTED_VALUE&key=${apiKey}`
+    ).then(res => res.json());
+    const registry: Registry = {
       issuers: {}
     };
-    // Cell method
-    // await sheet.loadCells("A:H");
-    // console.log(sheet.);
-    // const c = sheet.getCellByA1("C2");
-    // console.log(c.value, c.valueType);
-
-    rows.forEach((row: GoogleSpreadsheetRow): void => {
-      // console.log(row);
-      const displayCard = row.displayCard === "TRUE";
-
-      registry2.issuers[row.documentStore] = {
-        name: row.name,
-        displayCard
+    data.values.forEach((row): void => {
+      // 0: documentStore, 1: name, 2: displayCard, 3: website, 4: email, 5: phone, 6: logo, 7: id, 8: group
+      registry.issuers[row[0]] = {
+        name: row[1],
+        displayCard: /true/i.test(row[2])
       };
 
-      if (displayCard) {
-        registry2.issuers[row.documentStore] = {
-          ...registry2.issuers[row.documentStore],
-          website: row.website,
-          email: row.email,
-          phone: row.phone,
-          logo: row.logo,
-          id: row.id
+      if (row[2]) {
+        registry.issuers[row[0]] = {
+          ...registry.issuers[row[0]],
+          website: row[3],
+          email: row[4],
+          phone: row[5],
+          logo: row[6],
+          id: row[7]
         };
       }
     });
 
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
-      return storeToFragment(registry2, documentData.proof.value);
+      return storeToFragment(registry, documentData.proof.value);
     }
     const documentData = getData(document);
     const issuerFragments = documentData.issuers.map(issuer =>
-      storeToFragment(registry2, (issuer.documentStore || issuer.certificateStore)!)
+      storeToFragment(registry, (issuer.documentStore || issuer.certificateStore)!)
     );
     // if one issuer is valid => fragment status is valid otherwise if all issuers are invalid => invalid
     const status = issuerFragments.some(fragment => fragment.status === "VALID") ? "VALID" : "INVALID";
