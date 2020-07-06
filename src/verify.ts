@@ -8,6 +8,10 @@ import {
 } from "@govtechsg/oa-verify";
 import { getData, v2, v3, WrappedDocument, utils } from "@govtechsg/open-attestation";
 
+export interface OpenCertsVerificationManagerOptions extends VerificationManagerOptions {
+  googleApiKey?: string;
+}
+
 export interface RegistryEntry {
   name: string;
   displayCard: boolean;
@@ -83,7 +87,7 @@ const storeToFragment = (
 
 export const registryVerifier: Verifier<
   WrappedDocument<v2.OpenAttestationDocument> | WrappedDocument<v3.OpenAttestationDocument>,
-  VerificationManagerOptions,
+  OpenCertsVerificationManagerOptions,
   OpencertsRegistryVerificationFragmentData | OpencertsRegistryVerificationFragmentData[]
 > = {
   test: document => {
@@ -193,5 +197,5 @@ export const isValid = (
 
 export const verify: (
   document: WrappedDocument<v3.OpenAttestationDocument> | WrappedDocument<v2.OpenAttestationDocument>,
-  options: VerificationManagerOptions
+  options: OpenCertsVerificationManagerOptions
 ) => Promise<VerificationFragment[]> = verificationBuilder([...openAttestationVerifiers, registryVerifier]);
