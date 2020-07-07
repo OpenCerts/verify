@@ -75,7 +75,7 @@ const storeToFragment = (registry, store) => {
 
 const registryVerifier = {
   test: document => {
-    if ((0, _oaVerify.isWrappedV3Document)(document)) {
+    if (_openAttestation.utils.isWrappedV3Document(document)) {
       const documentData = (0, _openAttestation.getData)(document);
       return documentData.proof.method === _openAttestation.v3.Method.DocumentStore;
     }
@@ -124,7 +124,7 @@ const registryVerifier = {
         }
       });
 
-      if ((0, _oaVerify.isWrappedV3Document)(document)) {
+      if (_openAttestation.utils.isWrappedV3Document(document)) {
         const documentData = (0, _openAttestation.getData)(document);
         return storeToFragment(registry, documentData.proof.value);
       }
