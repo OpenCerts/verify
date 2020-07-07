@@ -136,7 +136,7 @@ describe("verify", () => {
             reason: {
               code: 3,
               codeString: "ETHERS_UNHANDLED_ERROR",
-              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
             }
           },
           issuedOnAll: false
@@ -144,7 +144,7 @@ describe("verify", () => {
         reason: {
           code: 3,
           codeString: "ETHERS_UNHANDLED_ERROR",
-          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
         },
         status: "INVALID",
         name: "OpenAttestationEthereumDocumentStoreIssued",
@@ -167,7 +167,7 @@ describe("verify", () => {
             reason: {
               code: 3,
               codeString: "ETHERS_UNHANDLED_ERROR",
-              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
             },
             revoked: true
           },
@@ -176,7 +176,7 @@ describe("verify", () => {
         reason: {
           code: 3,
           codeString: "ETHERS_UNHANDLED_ERROR",
-          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: invalid bytes32 value"
+          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
         },
         status: "INVALID",
         name: "OpenAttestationEthereumDocumentStoreRevoked",
