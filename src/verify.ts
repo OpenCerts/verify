@@ -6,6 +6,7 @@ import {
   VerificationFragmentType,
   VerificationManagerOptions
 } from "@govtechsg/oa-verify";
+import fetch from "node-fetch";
 import { getData, v2, v3, WrappedDocument, utils } from "@govtechsg/open-attestation";
 
 export interface OpenCertsVerificationManagerOptions extends VerificationManagerOptions {
