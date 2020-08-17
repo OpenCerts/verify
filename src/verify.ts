@@ -38,11 +38,7 @@ export enum OpencertsRegistryCode {
   SKIPPED = 1
 }
 
-const storeToFragment = (
-  registry: Registry,
-  store: string
-  // TODO fix oa-verify to not have optional on data
-): VerificationFragment & { data: OpencertsRegistryVerificationFragmentData } => {
+const storeToFragment = (registry: Registry, store: string): VerificationFragment => {
   const key = Object.keys(registry.issuers).find(k => k.toLowerCase() === store.toLowerCase());
   if (key) {
     return {
