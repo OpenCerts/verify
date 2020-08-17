@@ -39,21 +39,7 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
-        data: {
-          details: [
-            {
-              address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
-              issued: true
-            }
-          ],
-          issuedOnAll: true
-        },
-        status: "VALID",
-        name: "OpenAttestationEthereumDocumentStoreIssued",
-        type: "DOCUMENT_STATUS"
-      },
-      {
-        name: "OpenAttestationEthereumTokenRegistryMinted",
+        name: "OpenAttestationEthereumTokenRegistryStatus",
         status: "SKIPPED",
         type: "DOCUMENT_STATUS",
         reason: {
@@ -64,16 +50,25 @@ describe("verify", () => {
       },
       {
         data: {
-          details: [
-            {
-              address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
-              revoked: false
-            }
-          ],
+          details: {
+            issuance: [
+              {
+                address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
+                issued: true
+              }
+            ],
+            revocation: [
+              {
+                address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
+                revoked: false
+              }
+            ]
+          },
+          issuedOnAll: true,
           revokedOnAny: false
         },
         status: "VALID",
-        name: "OpenAttestationEthereumDocumentStoreRevoked",
+        name: "OpenAttestationEthereumDocumentStoreStatus",
         type: "DOCUMENT_STATUS"
       },
       {

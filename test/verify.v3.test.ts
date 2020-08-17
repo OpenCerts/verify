@@ -31,37 +31,32 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
-        data: {
-          details: {
-            address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
-            issued: true
-          },
-          issuedOnAll: true
-        },
-        status: "VALID",
-        name: "OpenAttestationEthereumDocumentStoreIssued",
-        type: "DOCUMENT_STATUS"
-      },
-      {
         reason: {
           code: 4,
           codeString: "SKIPPED",
           message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
         },
-        name: "OpenAttestationEthereumTokenRegistryMinted",
+        name: "OpenAttestationEthereumTokenRegistryStatus",
         status: "SKIPPED",
         type: "DOCUMENT_STATUS"
       },
       {
         data: {
           details: {
-            address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
-            revoked: false
+            issuance: {
+              address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
+              issued: true
+            },
+            revocation: {
+              address: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
+              revoked: false
+            }
           },
+          issuedOnAll: true,
           revokedOnAny: false
         },
         status: "VALID",
-        name: "OpenAttestationEthereumDocumentStoreRevoked",
+        name: "OpenAttestationEthereumDocumentStoreStatus",
         type: "DOCUMENT_STATUS"
       },
       {
@@ -73,7 +68,7 @@ describe("verify", () => {
         reason: {
           code: 1,
           codeString: "INVALID_IDENTITY",
-          message: "Certificate issuer identity is invalid"
+          message: "Document issuer identity is invalid"
         },
         name: "OpenAttestationDnsTxt",
         status: "INVALID",
@@ -113,7 +108,7 @@ describe("verify", () => {
         reason: {
           code: 0,
           codeString: "DOCUMENT_TAMPERED",
-          message: "Certificate has been tampered with"
+          message: "Document has been tampered with"
         },
         name: "OpenAttestationHash",
         type: "DOCUMENT_INTEGRITY"
@@ -129,14 +124,26 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
+        reason: {
+          code: 4,
+          codeString: "SKIPPED",
+          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
+        },
+        name: "OpenAttestationEthereumTokenRegistryStatus",
+        status: "SKIPPED",
+        type: "DOCUMENT_STATUS"
+      },
+      {
         data: {
           details: {
-            issued: false,
-            address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
-            reason: {
-              code: 3,
-              codeString: "ETHERS_UNHANDLED_ERROR",
-              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
+            issuance: {
+              issued: false,
+              address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
+              reason: {
+                code: 3,
+                codeString: "ETHERS_UNHANDLED_ERROR",
+                message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
+              }
             }
           },
           issuedOnAll: false
@@ -147,39 +154,7 @@ describe("verify", () => {
           message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
         },
         status: "INVALID",
-        name: "OpenAttestationEthereumDocumentStoreIssued",
-        type: "DOCUMENT_STATUS"
-      },
-      {
-        reason: {
-          code: 4,
-          codeString: "SKIPPED",
-          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
-        },
-        name: "OpenAttestationEthereumTokenRegistryMinted",
-        status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
-      },
-      {
-        data: {
-          details: {
-            address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
-            reason: {
-              code: 3,
-              codeString: "ETHERS_UNHANDLED_ERROR",
-              message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
-            },
-            revoked: true
-          },
-          revokedOnAny: true
-        },
-        reason: {
-          code: 3,
-          codeString: "ETHERS_UNHANDLED_ERROR",
-          message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
-        },
-        status: "INVALID",
-        name: "OpenAttestationEthereumDocumentStoreRevoked",
+        name: "OpenAttestationEthereumDocumentStoreStatus",
         type: "DOCUMENT_STATUS"
       },
       {
