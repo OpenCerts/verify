@@ -98,7 +98,7 @@ describe("verify", () => {
     expect(isValid(results)).toStrictEqual(false);
     expect(isValid(results, ["DOCUMENT_INTEGRITY", "DOCUMENT_STATUS"])).toStrictEqual(true);
   });
-  it("should fail for  when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
+  it("should fail for when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
     const results = await verify(documentWithDocumentStoreIssuerInRegistryAndValidDns, { network: "ropsten" });
 
     expect(results).toStrictEqual([
@@ -141,7 +141,7 @@ describe("verify", () => {
               address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
               reason: {
                 code: 3,
-                codeString: "ETHERS_UNHANDLED_ERROR",
+                codeString: "INVALID_ARGUMENT",
                 message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
               }
             }
@@ -150,7 +150,7 @@ describe("verify", () => {
         },
         reason: {
           code: 3,
-          codeString: "ETHERS_UNHANDLED_ERROR",
+          codeString: "INVALID_ARGUMENT",
           message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
         },
         status: "INVALID",
