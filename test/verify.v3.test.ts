@@ -140,7 +140,7 @@ describe("verify", () => {
               issued: false,
               address: "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
               reason: {
-                code: 3,
+                code: 6,
                 codeString: "INVALID_ARGUMENT",
                 message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
               }
@@ -149,7 +149,7 @@ describe("verify", () => {
           issuedOnAll: false
         },
         reason: {
-          code: 3,
+          code: 6,
           codeString: "INVALID_ARGUMENT",
           message: "Error with smart contract 0x532C9Ff853CA54370D7492cD84040F9f8099f11B: incorrect data length"
         },
