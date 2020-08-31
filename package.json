@@ -44,7 +44,7 @@
     ]
   },
   "dependencies": {
-    "@govtechsg/oa-verify": "github:Open-Attestation/oa-verify#feat/new-errors",
+    "@govtechsg/oa-verify": "4.1.0",
     "@govtechsg/open-attestation": "^3.11.0",
     "debug": "4.1.1",
     "node-fetch": "2.6.0"

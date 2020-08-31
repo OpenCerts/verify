@@ -1,6 +1,0 @@
-import { v3, WrappedDocument } from "@govtechsg/open-attestation";
-export declare const documentWithDocumentStoreIssuerInRegistryAndValidDns: WrappedDocument<v3.OpenAttestationDocument>;
-export declare const documentWithDocumentStoreIssuerInRegistryAndInvalidDns: WrappedDocument<v3.OpenAttestationDocument>;
-export declare const documentWithDocumentStoreIssuerNotInRegistryAndValidDns: WrappedDocument<v3.OpenAttestationDocument>;
-export declare const documentWithDocumentStoreIssuerNotInRegistryAndInvalidDns: WrappedDocument<v3.OpenAttestationDocument>;
-export declare const documentRopstenValidWithDocumentStore: WrappedDocument<v3.OpenAttestationDocument>;
