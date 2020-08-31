@@ -10,7 +10,7 @@ import {
 const options = { network: "ropsten" };
 
 describe("verify", () => {
-  it("should fail for OpenAttestationDnsTxt when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
+  it("should fail OpenAttestationDnsTxt when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
     const results = await verify(documentRopstenValidWithDocumentStore, { network: "ropsten" });
 
     expect(results).toStrictEqual([
@@ -98,7 +98,7 @@ describe("verify", () => {
     expect(isValid(results)).toStrictEqual(false);
     expect(isValid(results, ["DOCUMENT_INTEGRITY", "DOCUMENT_STATUS"])).toStrictEqual(true);
   });
-  it("should fail for when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
+  it("should fail when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
     const results = await verify(documentWithDocumentStoreIssuerInRegistryAndValidDns, { network: "ropsten" });
 
     expect(results).toStrictEqual([
