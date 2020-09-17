@@ -83,7 +83,7 @@ export const registryVerifier: Verifier<
       const documentData = getData(document);
       return documentData.proof.method === v3.Method.DocumentStore;
     }
-    const documentData = getData(document);
+    const documentData = getData(document as WrappedDocument<v2.OpenAttestationDocument>);
     return documentData.issuers.some(issuer => "documentStore" in issuer || "certificateStore" in issuer);
   },
   skip: () => {
