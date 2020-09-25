@@ -9,6 +9,10 @@ import {
 import fetch from "node-fetch";
 import { getData, v2, v3, WrappedDocument, utils } from "@govtechsg/open-attestation";
 
+export interface OpenCertsVerificationManagerOptions extends VerificationManagerOptions {
+  googleApiKey?: string;
+}
+
 export interface RegistryEntry {
   name: string;
   displayCard: boolean;
@@ -22,6 +26,11 @@ export interface Registry {
   issuers: {
     [key: string]: RegistryEntry;
   };
+}
+export interface GoogleSpreadsheetValues {
+  range: string;
+  majorDimension: string;
+  values: string[];
 }
 export type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
   value: string;
@@ -81,7 +90,7 @@ const isWrappedV2Document = (document: any): document is WrappedDocument<v2.Open
 
 export const registryVerifier: Verifier<
   WrappedDocument<v2.OpenAttestationDocument> | WrappedDocument<v3.OpenAttestationDocument>,
-  VerificationManagerOptions,
+  OpenCertsVerificationManagerOptions,
   OpencertsRegistryVerificationFragmentData | OpencertsRegistryVerificationFragmentData[]
 > = {
   test: document => {
@@ -109,8 +118,34 @@ export const registryVerifier: Verifier<
       }
     });
   },
-  verify: async document => {
-    const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
+  verify: async (document, options) => {
+    const apiKey = options.googleApiKey || process.env.GOOGLE_API_KEY;
+    const spreadsheetId = "1nhhD3XvHh2Ql_hW27LNw01fC-_I6Azt_XzYiYGhkmAU";
+    const range = "Registry!A:H";
+    const data: GoogleSpreadsheetValues = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueRenderOption=UNFORMATTED_VALUE&key=${apiKey}`
+    ).then(res => res.json());
+    const registry: Registry = {
+      issuers: {}
+    };
+    data.values.forEach((row): void => {
+      // 0: documentStore, 1: name, 2: displayCard, 3: website, 4: email, 5: phone, 6: logo, 7: id, 8: group
+      registry.issuers[row[0]] = {
+        name: row[1],
+        displayCard: /true/i.test(row[2])
+      };
+
+      if (row[2]) {
+        registry.issuers[row[0]] = {
+          ...registry.issuers[row[0]],
+          website: row[3],
+          email: row[4],
+          phone: row[5],
+          logo: row[6],
+          id: row[7]
+        };
+      }
+    });
 
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
@@ -170,5 +205,5 @@ export const isValid = (
 
 export const verify: (
   document: WrappedDocument<v3.OpenAttestationDocument> | WrappedDocument<v2.OpenAttestationDocument>,
-  options: VerificationManagerOptions
+  options: OpenCertsVerificationManagerOptions
 ) => Promise<VerificationFragment[]> = verificationBuilder([...openAttestationVerifiers, registryVerifier]);
