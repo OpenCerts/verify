@@ -9,9 +9,15 @@ import {
 
 const options = { network: "ropsten" };
 
+// https://docs.google.com/spreadsheets/d/10-yzy245v6fXesJ9lR_qaLBIEMwa2mxn9DcZB3_kD34/edit#gid=0 owned by Nebulis
+const verifyWithOptionsApplied = verify({
+  spreadsheetId: "10-yzy245v6fXesJ9lR_qaLBIEMwa2mxn9DcZB3_kD34",
+  spreadsheetKey: "AIzaSyDSIMuMsZOuh0cBnMFYJjvSRWZJ-IE_4YY"
+});
+
 describe("verify", () => {
   it("should fail OpenAttestationDnsTxt when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
-    const results = await verify(documentRopstenValidWithDocumentStore, { network: "ropsten" });
+    const results = await verifyWithOptionsApplied(documentRopstenValidWithDocumentStore, { network: "ropsten" });
 
     expect(results).toStrictEqual([
       {
@@ -19,16 +25,6 @@ describe("verify", () => {
         status: "VALID",
         name: "OpenAttestationHash",
         type: "DOCUMENT_INTEGRITY"
-      },
-      {
-        name: "OpenAttestationSignedProof",
-        reason: {
-          code: 4,
-          codeString: "SKIPPED",
-          message: "Document does not have a proof block"
-        },
-        status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
       },
       {
         reason: {
@@ -75,6 +71,26 @@ describe("verify", () => {
         type: "ISSUER_IDENTITY"
       },
       {
+        name: "OpenAttestationDnsDid",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not issued using DNS-DID"
+        },
+        status: "SKIPPED",
+        type: "ISSUER_IDENTITY"
+      },
+      {
+        name: "OpenAttestationDidSignedDocumentStatus",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not signed by DID directly"
+        },
+        status: "SKIPPED",
+        type: "DOCUMENT_STATUS"
+      },
+      {
         data: {
           value: "0x8Fc57204c35fb9317D91285eF52D6b892EC08cD3",
           status: "INVALID",
@@ -99,7 +115,9 @@ describe("verify", () => {
     expect(isValid(results, ["DOCUMENT_INTEGRITY", "DOCUMENT_STATUS"])).toStrictEqual(true);
   });
   it("should fail when identity is invalid and be valid for remaining checks when document with certificate store is valid on ropsten", async () => {
-    const results = await verify(documentWithDocumentStoreIssuerInRegistryAndValidDns, { network: "ropsten" });
+    const results = await verifyWithOptionsApplied(documentWithDocumentStoreIssuerInRegistryAndValidDns, {
+      network: "ropsten"
+    });
 
     expect(results).toStrictEqual([
       {
@@ -112,16 +130,6 @@ describe("verify", () => {
         },
         name: "OpenAttestationHash",
         type: "DOCUMENT_INTEGRITY"
-      },
-      {
-        name: "OpenAttestationSignedProof",
-        reason: {
-          code: 4,
-          codeString: "SKIPPED",
-          message: "Document does not have a proof block"
-        },
-        status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
       },
       {
         reason: {
@@ -168,6 +176,26 @@ describe("verify", () => {
         type: "ISSUER_IDENTITY"
       },
       {
+        name: "OpenAttestationDnsDid",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not issued using DNS-DID"
+        },
+        status: "SKIPPED",
+        type: "ISSUER_IDENTITY"
+      },
+      {
+        name: "OpenAttestationDidSignedDocumentStatus",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not signed by DID directly"
+        },
+        status: "SKIPPED",
+        type: "DOCUMENT_STATUS"
+      },
+      {
         data: {
           displayCard: false,
           name: "ROPSTEN: Government Technology Agency of Singapore (GovTech)",
@@ -185,19 +213,25 @@ describe("verify", () => {
   });
   describe("IDENTITY_ISSUER", () => {
     it("should have valid ISSUER_IDENTITY when document issuer is in registry and dns is valid", async () => {
-      const fragments = await verify(documentWithDocumentStoreIssuerInRegistryAndValidDns, options);
+      const fragments = await verifyWithOptionsApplied(documentWithDocumentStoreIssuerInRegistryAndValidDns, options);
       expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
     });
     it("should have valid ISSUER_IDENTITY when document issuer is in registry but dns is invalid", async () => {
-      const fragments = await verify(documentWithDocumentStoreIssuerInRegistryAndInvalidDns, options);
+      const fragments = await verifyWithOptionsApplied(documentWithDocumentStoreIssuerInRegistryAndInvalidDns, options);
       expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
     });
     it("should have valid ISSUER_IDENTITY when document issuer is not in registry but dns is valid", async () => {
-      const fragments = await verify(documentWithDocumentStoreIssuerNotInRegistryAndValidDns, options);
+      const fragments = await verifyWithOptionsApplied(
+        documentWithDocumentStoreIssuerNotInRegistryAndValidDns,
+        options
+      );
       expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
     });
     it("should have invalid ISSUER_IDENTITY when document issuer is not in registry and dns is invalid", async () => {
-      const fragments = await verify(documentWithDocumentStoreIssuerNotInRegistryAndInvalidDns, options);
+      const fragments = await verifyWithOptionsApplied(
+        documentWithDocumentStoreIssuerNotInRegistryAndInvalidDns,
+        options
+      );
       expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
     });
   });

@@ -4,6 +4,9 @@ const issuerInRegistry = "0x532C9Ff853CA54370D7492cD84040F9f8099f11B";
 const issuerInRegistry2 = "0xdcA6Eea7024151c270b50FcA9E67161119B06BAD";
 const issuerNotInRegistry = "0x8FC57204C35FB9317D91285EF52D6B892EC08CD3";
 const issuerNotInRegistry2 = "0x64A51C250D3fC5838B757a5311dE3CE8Ae1c4C04";
+const issuerDeniedWithoutRange = "0xaaaaaa7890986432123457890234578909865432";
+const issuerDeniedWithStartDate = "0xbbbbbb7890986432123457890234578909865432";
+const issuerInRegistryWithEndDate = "0xcccccc7890986432123457890234578909865432";
 
 interface CustomDocument extends v2.OpenAttestationDocument {
   name: string;
@@ -313,6 +316,181 @@ export const documentWithTwoCertificateStoreIssuerNotInRegistry: WrappedDocument
       {
         name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
         certificateStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry2}`
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+
+export const documentWithDeniedIssuerWithoutRange: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        certificateStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerDeniedWithoutRange}`
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerWithStartDate: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        certificateStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerDeniedWithStartDate}`
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerWithEndDate: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        certificateStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistryWithEndDate}`
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerWithDateRangeInFuture: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        certificateStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+
+export const documentWithDeniedIssuerLocationWithoutRange: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+        identityProof: {
+          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:foo.com"
+        }
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerLocationOnSubdomain: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+        identityProof: {
+          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.foo.com"
+        }
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerLocationWithStartDate: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+        identityProof: {
+          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:bar.com"
+        }
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerLocationWithEndDate: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+        identityProof: {
+          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:oops.com"
+        }
+      }
+    ]
+  },
+  signature: {
+    type: "SHA3MerkleProof",
+    targetHash: "abcd",
+    proof: [],
+    merkleRoot: "abcd"
+  }
+};
+export const documentWithDeniedIssuerLocationWithDateRangeInFuture: WrappedDocument<v2.OpenAttestationDocument> = {
+  version: SchemaId.v2,
+  data: {
+    issuers: [
+      {
+        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+        identityProof: {
+          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com"
+        }
       }
     ]
   },

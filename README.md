@@ -116,3 +116,7 @@ With the addition of `OpencertsRegistryVerifier` verifier, different rules apply
 ## License
 
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+
+-   enable google sheet api => <https://console.developers.google.com/apis/library/sheets.googleapis.com?project=opencerts&folder=>
+-   create api key <https://console.developers.google.com/apis/credentials?project=opencerts&folder=&organizationId=>
+-   make document public
