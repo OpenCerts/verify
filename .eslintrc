@@ -1,6 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   "env": {
     "jest": true
   },
@@ -27,6 +28,8 @@
     }
   ],
   "rules": {
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

@@ -5,7 +5,7 @@ import {
   VerificationFragmentType,
   Verifier,
   VerifierOptions,
-  isValid as oaIsValid
+  isValid as oaIsValid,
 } from "@govtechsg/oa-verify";
 import fetch from "node-fetch";
 import { getData, utils, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
@@ -37,21 +37,21 @@ export const name = "OpencertsRegistryVerifier";
 // code for errors and invalid fragment
 export enum OpencertsRegistryCode {
   INVALID_IDENTITY = 0,
-  SKIPPED = 1
+  SKIPPED = 1,
 }
 
 const storeToFragment = (registry: Registry, store: string): VerificationFragment => {
-  const key = Object.keys(registry.issuers).find(k => k.toLowerCase() === store.toLowerCase());
+  const key = Object.keys(registry.issuers).find((k) => k.toLowerCase() === store.toLowerCase());
   if (key) {
     return {
       status: "VALID",
       type,
       name,
       data: {
-        status: "VALID" as "VALID",
+        status: "VALID" as const,
         value: store,
-        ...registry.issuers[key]
-      }
+        ...registry.issuers[key],
+      },
     };
   }
   return {
@@ -60,18 +60,18 @@ const storeToFragment = (registry: Registry, store: string): VerificationFragmen
     name,
     data: {
       value: store,
-      status: "INVALID" as "INVALID",
+      status: "INVALID" as const,
       reason: {
         code: OpencertsRegistryCode.INVALID_IDENTITY,
         codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
-        message: `Document store ${store} not found in the registry`
-      }
+        message: `Document store ${store} not found in the registry`,
+      },
     },
     reason: {
       code: OpencertsRegistryCode.INVALID_IDENTITY,
       codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
-      message: `Document store ${store} not found in the registry`
-    }
+      message: `Document store ${store} not found in the registry`,
+    },
   };
 };
 
@@ -86,7 +86,7 @@ export const registryVerifier: Verifier<
   VerifierOptions,
   OpencertsRegistryVerificationFragmentData | OpencertsRegistryVerificationFragmentData[]
 > = {
-  test: document => {
+  test: (document) => {
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
       return documentData.proof.method === v3.Method.DocumentStore;
@@ -94,7 +94,7 @@ export const registryVerifier: Verifier<
 
     if (isWrappedV2Document(document)) {
       const documentData = getData(document);
-      return documentData.issuers.some(issuer => "documentStore" in issuer || "certificateStore" in issuer);
+      return documentData.issuers.some((issuer) => "documentStore" in issuer || "certificateStore" in issuer);
     }
 
     return false;
@@ -107,31 +107,31 @@ export const registryVerifier: Verifier<
       reason: {
         code: OpencertsRegistryCode.SKIPPED,
         codeString: OpencertsRegistryCode[OpencertsRegistryCode.SKIPPED],
-        message: `Document issuers doesn't have "documentStore" or "certificateStore" property or ${v3.Method.DocumentStore} method`
-      }
+        message: `Document issuers doesn't have "documentStore" or "certificateStore" property or ${v3.Method.DocumentStore} method`,
+      },
     });
   },
-  verify: async document => {
-    const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then(res => res.json());
+  verify: async (document) => {
+    const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then((res) => res.json());
 
     if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
       return storeToFragment(registry, documentData.proof.value);
     }
     const documentData = getData(document);
-    const issuerFragments = documentData.issuers.map(issuer =>
-      storeToFragment(registry, (issuer.documentStore || issuer.certificateStore)!)
+    const issuerFragments = documentData.issuers.map((issuer) =>
+      storeToFragment(registry, issuer.documentStore || issuer.certificateStore || "")
     );
     // if one issuer is valid => fragment status is valid otherwise if all issuers are invalid => invalid
-    const status = issuerFragments.some(fragment => fragment.status === "VALID") ? "VALID" : "INVALID";
+    const status = issuerFragments.some((fragment) => fragment.status === "VALID") ? "VALID" : "INVALID";
     return {
       type,
       name,
       status,
-      data: issuerFragments.map(fragment => fragment.data),
-      reason: issuerFragments.find(fragment => fragment.reason)?.reason
+      data: issuerFragments.map((fragment) => fragment.data),
+      reason: issuerFragments.find((fragment) => fragment.reason)?.reason,
     };
-  }
+  },
 };
 
 export const isValid = (
@@ -144,8 +144,8 @@ export const isValid = (
   if (types.length < 1) {
     throw new Error("Please provide at least one type to check");
   }
-  return types.every(currentType => {
-    const verificationFragmentsForType = verificationFragments.filter(fragment => fragment.type === currentType);
+  return types.every((currentType) => {
+    const verificationFragmentsForType = verificationFragments.filter((fragment) => fragment.type === currentType);
 
     // return true if at least one fragment is valid
     // and all fragments are valid or skipped
@@ -157,9 +157,9 @@ export const isValid = (
 
     // if default check is false and type is issuer identity we check whether at least one verifier is valid
     const issuerIdentityFragments = verificationFragmentsForType.filter(
-      fragment => fragment.type === "ISSUER_IDENTITY"
+      (fragment) => fragment.type === "ISSUER_IDENTITY"
     );
-    return issuerIdentityFragments.some(fragment => fragment.status === "VALID");
+    return issuerIdentityFragments.some((fragment) => fragment.status === "VALID");
   });
 };
 
