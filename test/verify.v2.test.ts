@@ -13,14 +13,14 @@ import {
   documentWithTwoCertificateStoreIssuerWithOneInRegistry,
   documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt,
   documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt,
-  documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid
+  documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid,
 } from "./fixtures/v2/document";
 
 const mainnetVerify = verify({
-  network: "homestead"
+  network: "homestead",
 });
 const ropstenVerify = verify({
-  network: "ropsten"
+  network: "ropsten",
 });
 
 describe("verify", () => {
@@ -31,7 +31,7 @@ describe("verify", () => {
         data: true,
         status: "VALID",
         name: "OpenAttestationHash",
-        type: "DOCUMENT_INTEGRITY"
+        type: "DOCUMENT_INTEGRITY",
       },
       {
         name: "OpenAttestationEthereumTokenRegistryStatus",
@@ -40,8 +40,8 @@ describe("verify", () => {
         reason: {
           code: 4,
           codeString: "SKIPPED",
-          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method'
-        }
+          message: 'Document issuers doesn\'t have "tokenRegistry" property or TOKEN_REGISTRY method',
+        },
       },
       {
         data: {
@@ -49,32 +49,32 @@ describe("verify", () => {
             issuance: [
               {
                 address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
-                issued: true
-              }
+                issued: true,
+              },
             ],
             revocation: [
               {
                 address: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
-                revoked: false
-              }
-            ]
+                revoked: false,
+              },
+            ],
           },
           issuedOnAll: true,
-          revokedOnAny: false
+          revokedOnAny: false,
         },
         status: "VALID",
         name: "OpenAttestationEthereumDocumentStoreStatus",
-        type: "DOCUMENT_STATUS"
+        type: "DOCUMENT_STATUS",
       },
       {
         name: "OpenAttestationDidSignedDocumentStatus",
         reason: {
           code: 0,
           codeString: "SKIPPED",
-          message: "Document was not signed by DID directly"
+          message: "Document was not signed by DID directly",
         },
         status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
+        type: "DOCUMENT_STATUS",
       },
       {
         status: "SKIPPED",
@@ -84,18 +84,18 @@ describe("verify", () => {
           code: 2,
           codeString: "SKIPPED",
           message:
-            'Document issuers doesn\'t have "documentStore" / "tokenRegistry" property or doesn\'t use DNS-TXT type'
-        }
+            'Document issuers doesn\'t have "documentStore" / "tokenRegistry" property or doesn\'t use DNS-TXT type',
+        },
       },
       {
         name: "OpenAttestationDnsDidIdentityProof",
         reason: {
           code: 0,
           codeString: "SKIPPED",
-          message: "Document was not issued using DNS-DID"
+          message: "Document was not issued using DNS-DID",
         },
         status: "SKIPPED",
-        type: "ISSUER_IDENTITY"
+        type: "ISSUER_IDENTITY",
       },
       {
         data: [
@@ -108,14 +108,14 @@ describe("verify", () => {
             phone: "+65 6211 2100",
             status: "VALID",
             value: "0x007d40224f6562461633ccfbaffd359ebb2fc9ba",
-            website: "https://www.tech.gov.sg"
-          }
+            website: "https://www.tech.gov.sg",
+          },
         ],
         reason: undefined,
         name: "OpencertsRegistryVerifier",
         status: "VALID",
-        type: "ISSUER_IDENTITY"
-      }
+        type: "ISSUER_IDENTITY",
+      },
     ]);
     expect(isValid(fragments)).toStrictEqual(true);
   });
@@ -128,7 +128,7 @@ describe("verify", () => {
       it("should have invalid ISSUER_IDENTITY when document has one issuer that is not in registry", async () => {
         const fragments = await ropstenVerify(documentWithOneCertificateStoreIssuerNotInRegistry);
         // test registry fragment
-        expect(fragments.find(fragment => fragment.name === "OpencertsRegistryVerifier")).toStrictEqual({
+        expect(fragments.find((fragment) => fragment.name === "OpencertsRegistryVerifier")).toStrictEqual({
           data: [
             {
               status: "INVALID",
@@ -136,18 +136,18 @@ describe("verify", () => {
               reason: {
                 code: 0,
                 codeString: "INVALID_IDENTITY",
-                message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry"
-              }
-            }
+                message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry",
+              },
+            },
           ],
           reason: {
             code: 0,
             codeString: "INVALID_IDENTITY",
-            message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry"
+            message: "Document store 0x8FC57204C35FB9317D91285EF52D6B892EC08CD3 not found in the registry",
           },
           name: "OpencertsRegistryVerifier",
           status: "INVALID",
-          type: "ISSUER_IDENTITY"
+          type: "ISSUER_IDENTITY",
         });
 
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
