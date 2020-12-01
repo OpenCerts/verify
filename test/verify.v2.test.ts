@@ -1,5 +1,7 @@
 import { isValid, verify } from "../src";
 import {
+  documentDnsDidSigned,
+  documentMainnetValidWithCertificateStore,
   documentWithOneCertificateStoreIssuerInRegistry,
   documentWithOneCertificateStoreIssuerNotInRegistry,
   documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt,
@@ -10,33 +12,26 @@ import {
   documentWithTwoCertificateStoreIssuerNotInRegistry,
   documentWithTwoCertificateStoreIssuerWithOneInRegistry,
   documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt,
-  documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid,
   documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt,
-  documentMainnetValidWithCertificateStore
+  documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid
 } from "./fixtures/v2/document";
 
-const options = { network: "ropsten" };
+const mainnetVerify = verify({
+  network: "homestead"
+});
+const ropstenVerify = verify({
+  network: "ropsten"
+});
+
 describe("verify", () => {
   it("should be valid for all checks when document with certificate store is valid on mainnet", async () => {
-    const fragments = await verify(documentMainnetValidWithCertificateStore, {
-      network: "homestead"
-    });
+    const fragments = await mainnetVerify(documentMainnetValidWithCertificateStore);
     expect(fragments).toStrictEqual([
       {
         data: true,
         status: "VALID",
         name: "OpenAttestationHash",
         type: "DOCUMENT_INTEGRITY"
-      },
-      {
-        name: "OpenAttestationSignedProof",
-        reason: {
-          code: 4,
-          codeString: "SKIPPED",
-          message: "Document does not have a proof block"
-        },
-        status: "SKIPPED",
-        type: "DOCUMENT_STATUS"
       },
       {
         name: "OpenAttestationEthereumTokenRegistryStatus",
@@ -72,8 +67,18 @@ describe("verify", () => {
         type: "DOCUMENT_STATUS"
       },
       {
+        name: "OpenAttestationDidSignedDocumentStatus",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not signed by DID directly"
+        },
         status: "SKIPPED",
-        name: "OpenAttestationDnsTxt",
+        type: "DOCUMENT_STATUS"
+      },
+      {
+        status: "SKIPPED",
+        name: "OpenAttestationDnsTxtIdentityProof",
         type: "ISSUER_IDENTITY",
         reason: {
           code: 2,
@@ -81,6 +86,16 @@ describe("verify", () => {
           message:
             'Document issuers doesn\'t have "documentStore" / "tokenRegistry" property or doesn\'t use DNS-TXT type'
         }
+      },
+      {
+        name: "OpenAttestationDnsDidIdentityProof",
+        reason: {
+          code: 0,
+          codeString: "SKIPPED",
+          message: "Document was not issued using DNS-DID"
+        },
+        status: "SKIPPED",
+        type: "ISSUER_IDENTITY"
       },
       {
         data: [
@@ -107,11 +122,11 @@ describe("verify", () => {
   describe("IDENTITY_ISSUER", () => {
     describe("single issuer with certificate store", () => {
       it("should have valid ISSUER_IDENTITY when document has one issuer that is in registry", async () => {
-        const fragments = await verify(documentWithOneCertificateStoreIssuerInRegistry, options);
+        const fragments = await ropstenVerify(documentWithOneCertificateStoreIssuerInRegistry);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have invalid ISSUER_IDENTITY when document has one issuer that is not in registry", async () => {
-        const fragments = await verify(documentWithOneCertificateStoreIssuerNotInRegistry, options);
+        const fragments = await ropstenVerify(documentWithOneCertificateStoreIssuerNotInRegistry);
         // test registry fragment
         expect(fragments.find(fragment => fragment.name === "OpencertsRegistryVerifier")).toStrictEqual({
           data: [
@@ -140,50 +155,56 @@ describe("verify", () => {
     });
     describe("single issuer with document store and DNS-TXT", () => {
       it("should have valid ISSUER_IDENTITY when document has one issuer that is in registry and a valid DNS-TXT record", async () => {
-        const fragments = await verify(documentWithOneDocumentStoreIssuerInRegistryAndValidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithOneDocumentStoreIssuerInRegistryAndValidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have valid ISSUER_IDENTITY when document has one issuer that is not in registry and a valid DNS-TXT record", async () => {
-        const fragments = await verify(documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have valid ISSUER_IDENTITY when document has one issuer that is in registry and a invalid DNS-TXT record", async () => {
-        const fragments = await verify(documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have invalid ISSUER_IDENTITY when document has one issuer that is not in registry and a invalid DNS-TXT record", async () => {
-        const fragments = await verify(documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
+      });
+    });
+
+    describe("single issuer with DID", () => {
+      it("should have valid ISSUER_IDENTITY when document is using DNS-DID", async () => {
+        const fragments = await ropstenVerify(documentDnsDidSigned);
+        expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
     });
     describe("multiple issuer with certificate store", () => {
       it("should have valid ISSUER_IDENTITY when document has two issuers that are in registry", async () => {
-        const fragments = await verify(documentWithTwoCertificateStoreIssuerInRegistry, options);
+        const fragments = await ropstenVerify(documentWithTwoCertificateStoreIssuerInRegistry);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have valid ISSUER_IDENTITY when document has two issuers and only one is in registry", async () => {
-        const fragments = await verify(documentWithTwoCertificateStoreIssuerWithOneInRegistry, options);
+        const fragments = await ropstenVerify(documentWithTwoCertificateStoreIssuerWithOneInRegistry);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have invalid ISSUER_IDENTITY when document has two issuers and none is in registry", async () => {
-        const fragments = await verify(documentWithTwoCertificateStoreIssuerNotInRegistry, options);
+        const fragments = await ropstenVerify(documentWithTwoCertificateStoreIssuerNotInRegistry);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
       });
     });
     describe("multiple issuer with document store and DNS-TXT", () => {
       it("should have valid ISSUER_IDENTITY when document has two issuers that are in registry with valid dns-txt", async () => {
-        const fragments = await verify(documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have valid ISSUER_IDENTITY when document has two issuers, one that is in registry with valid dns-txt and the other being invalid", async () => {
-        const fragments = await verify(
-          documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid,
-          options
+        const fragments = await ropstenVerify(
+          documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid
         );
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
       });
       it("should have invalid ISSUER_IDENTITY when document has two issuers, none are in registry and both without valid DNS", async () => {
-        const fragments = await verify(documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt, options);
+        const fragments = await ropstenVerify(documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(false);
       });
     });
