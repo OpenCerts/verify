@@ -382,6 +382,7 @@ export const documentDnsDidSigned: any = {
     {
       type: "OpenAttestationSignature2018",
       proofPurpose: "assertionMethod",
+      created: "2021-03-25T07:52:31.291Z",
       verificationMethod: "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
       signature:
         "0xd05bb71bdb6f78451e2d12851825421666c6c5e355f516325ce5002a0586f89f6ebbd465227bec59c745dd26918dd8dab9122dcd398256d8e487e0ecf82a53421b",

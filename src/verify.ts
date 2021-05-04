@@ -1,34 +1,73 @@
 import {
+  CodedError,
+  InvalidVerificationFragment,
+  isValid as oaIsValid,
   openAttestationVerifiers,
+  Reason,
+  ValidVerificationFragment,
   verificationBuilder,
+  VerificationBuilderOptions,
   VerificationFragment,
   VerificationFragmentType,
   Verifier,
-  VerifierOptions,
-  isValid as oaIsValid,
 } from "@govtechsg/oa-verify";
 import fetch from "node-fetch";
-import { getData, utils, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
-import { VerificationBuilderOptions } from "@govtechsg/oa-verify/src/types/core";
+import { getData, utils, v3 } from "@govtechsg/open-attestation";
+import { Array as RunTypesArray, Boolean, Literal, Optional, Record, Static, String, Union } from "runtypes";
 
-export interface RegistryEntry {
-  name: string;
-  displayCard: boolean;
-  website?: string;
-  email?: string;
-  phone?: string;
-  logo?: string;
-  id?: string;
-}
+export const RegistryEntry = Record({
+  name: String,
+  displayCard: Boolean,
+  website: Optional(String),
+  email: Optional(String),
+  phone: Optional(String),
+  logo: Optional(String),
+  id: Optional(String),
+});
+export type RegistryEntry = Static<typeof RegistryEntry>;
+
 export interface Registry {
   issuers: {
     [key: string]: RegistryEntry;
   };
 }
-export type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
-  value: string;
-  status: "VALID" | "INVALID";
-};
+
+export const OpencertsRegistryVerificationValidData = RegistryEntry.And(
+  Record({
+    value: String,
+    status: Literal("VALID"),
+  })
+);
+export type OpencertsRegistryVerificationValidData = Static<typeof OpencertsRegistryVerificationValidData>;
+
+export const OpencertsRegistryVerificationInvalidData = Record({
+  value: String,
+  status: Literal("INVALID"),
+  reason: Reason,
+});
+export type OpencertsRegistryVerificationInvalidData = Static<typeof OpencertsRegistryVerificationInvalidData>;
+
+// if one issuer is valid => fragment status is valid otherwise if all issuers are invalid => invalid
+export const OpencertsRegistryVerificationValidDataArray = RunTypesArray(
+  Union(OpencertsRegistryVerificationValidData, OpencertsRegistryVerificationInvalidData)
+);
+export type OpencertsRegistryVerificationValidDataArray = Static<typeof OpencertsRegistryVerificationValidDataArray>;
+export const OpencertsRegistryVerificationInvalidDataArray = RunTypesArray(OpencertsRegistryVerificationInvalidData);
+export type OpencertsRegistryVerificationInvalidDataArray = Static<
+  typeof OpencertsRegistryVerificationInvalidDataArray
+>;
+
+export type OpencertsRegistryVerifierValidFragmentV2 = ValidVerificationFragment<OpencertsRegistryVerificationValidDataArray>;
+export type OpencertsRegistryVerifierInvalidFragmentV2 = InvalidVerificationFragment<OpencertsRegistryVerificationInvalidDataArray>;
+export type OpencertsRegistryVerifierValidFragmentV3 = ValidVerificationFragment<OpencertsRegistryVerificationValidData>;
+export type OpencertsRegistryVerifierInvalidFragmentV3 = InvalidVerificationFragment<OpencertsRegistryVerificationInvalidData>;
+export type OpencertsRegistryVerifierVerificationFragment =
+  | OpencertsRegistryVerifierValidFragmentV2
+  | OpencertsRegistryVerifierInvalidFragmentV2
+  | OpencertsRegistryVerifierValidFragmentV3
+  | OpencertsRegistryVerifierInvalidFragmentV3;
+
+type VerifierType = Verifier<OpencertsRegistryVerifierVerificationFragment>;
 
 export const type = "ISSUER_IDENTITY";
 export const name = "OpencertsRegistryVerifier";
@@ -38,35 +77,24 @@ export const name = "OpencertsRegistryVerifier";
 export enum OpencertsRegistryCode {
   INVALID_IDENTITY = 0,
   SKIPPED = 1,
+  UNEXPECTED_ERROR = 2,
 }
 
-const storeToFragment = (registry: Registry, store: string): VerificationFragment => {
+const storeToData = (
+  registry: Registry,
+  store: string
+): OpencertsRegistryVerificationValidData | OpencertsRegistryVerificationInvalidData => {
   const key = Object.keys(registry.issuers).find((k) => k.toLowerCase() === store.toLowerCase());
   if (key) {
     return {
-      status: "VALID",
-      type,
-      name,
-      data: {
-        status: "VALID" as const,
-        value: store,
-        ...registry.issuers[key],
-      },
+      status: "VALID" as const,
+      value: store,
+      ...registry.issuers[key],
     };
   }
   return {
-    status: "INVALID",
-    type,
-    name,
-    data: {
-      value: store,
-      status: "INVALID" as const,
-      reason: {
-        code: OpencertsRegistryCode.INVALID_IDENTITY,
-        codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
-        message: `Document store ${store} not found in the registry`,
-      },
-    },
+    value: store,
+    status: "INVALID" as const,
     reason: {
       code: OpencertsRegistryCode.INVALID_IDENTITY,
       codeString: OpencertsRegistryCode[OpencertsRegistryCode.INVALID_IDENTITY],
@@ -75,24 +103,11 @@ const storeToFragment = (registry: Registry, store: string): VerificationFragmen
   };
 };
 
-// local function to check data + data.issuers fields
-// don't use utils.isWrappedV2Document, as it only checks OpenAttestationDocument version
-const isWrappedV2Document = (document: any): document is WrappedDocument<v2.OpenAttestationDocument> => {
-  return document.data && document.data.issuers;
-};
-
-export const registryVerifier: Verifier<
-  WrappedDocument<v2.OpenAttestationDocument> | WrappedDocument<v3.OpenAttestationDocument>,
-  VerifierOptions,
-  OpencertsRegistryVerificationFragmentData | OpencertsRegistryVerificationFragmentData[]
-> = {
+export const registryVerifier: VerifierType = {
   test: (document) => {
     if (utils.isWrappedV3Document(document)) {
-      const documentData = getData(document);
-      return documentData.proof.method === v3.Method.DocumentStore;
-    }
-
-    if (isWrappedV2Document(document)) {
+      return document.openAttestationMetadata.proof.method === v3.Method.DocumentStore;
+    } else if (utils.isWrappedV2Document(document)) {
       const documentData = getData(document);
       return documentData.issuers.some((issuer) => "documentStore" in issuer || "certificateStore" in issuer);
     }
@@ -115,22 +130,56 @@ export const registryVerifier: Verifier<
     const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then((res) => res.json());
 
     if (utils.isWrappedV3Document(document)) {
-      const documentData = getData(document);
-      return storeToFragment(registry, documentData.proof.value);
+      const data = storeToData(registry, document.openAttestationMetadata.proof.value);
+      if (OpencertsRegistryVerificationValidData.guard(data)) {
+        return {
+          type,
+          name,
+          status: "VALID",
+          data,
+        };
+      } else {
+        return {
+          type,
+          name,
+          status: "INVALID",
+          data,
+          reason: data.reason,
+        };
+      }
     }
+
     const documentData = getData(document);
     const issuerFragments = documentData.issuers.map((issuer) =>
-      storeToFragment(registry, issuer.documentStore || issuer.certificateStore || "")
+      storeToData(registry, issuer.documentStore || issuer.certificateStore || "")
     );
     // if one issuer is valid => fragment status is valid otherwise if all issuers are invalid => invalid
-    const status = issuerFragments.some((fragment) => fragment.status === "VALID") ? "VALID" : "INVALID";
-    return {
-      type,
-      name,
-      status,
-      data: issuerFragments.map((fragment) => fragment.data),
-      reason: issuerFragments.find((fragment) => fragment.reason)?.reason,
-    };
+    const invalidIssuer = issuerFragments.find(OpencertsRegistryVerificationInvalidData.guard);
+    if (
+      OpencertsRegistryVerificationInvalidDataArray.guard(issuerFragments) &&
+      OpencertsRegistryVerificationInvalidData.guard(invalidIssuer)
+    ) {
+      return {
+        type,
+        name,
+        status: "INVALID",
+        data: issuerFragments,
+        reason: invalidIssuer.reason,
+      };
+    } else if (OpencertsRegistryVerificationValidDataArray.guard(issuerFragments)) {
+      return {
+        type,
+        name,
+        status: "VALID",
+        data: issuerFragments,
+      };
+    }
+
+    throw new CodedError(
+      "Unable to retrieve the reason of the failure",
+      OpencertsRegistryCode.UNEXPECTED_ERROR,
+      "UNEXPECTED_ERROR"
+    );
   },
 };
 

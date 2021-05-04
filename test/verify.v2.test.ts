@@ -111,7 +111,6 @@ describe("verify", () => {
             website: "https://www.tech.gov.sg",
           },
         ],
-        reason: undefined,
         name: "OpencertsRegistryVerifier",
         status: "VALID",
         type: "ISSUER_IDENTITY",
