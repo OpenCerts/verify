@@ -10,6 +10,7 @@ import {
   VerificationFragment,
   VerificationFragmentType,
   Verifier,
+  utils as verifyUtils,
 } from "@govtechsg/oa-verify";
 import fetch from "node-fetch";
 import { getData, utils, v3 } from "@govtechsg/open-attestation";
@@ -211,6 +212,10 @@ export const isValid = (
     return issuerIdentityFragments.some((fragment) => fragment.status === "VALID");
   });
 };
+
+export const getOpencertsRegistryVerifierFragment = verifyUtils.getFragmentByName<OpencertsRegistryVerifierVerificationFragment>(
+  name
+);
 
 export const verify = (builderOptions: VerificationBuilderOptions) =>
   verificationBuilder([...openAttestationVerifiers, registryVerifier], builderOptions);
