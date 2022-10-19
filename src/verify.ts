@@ -128,7 +128,7 @@ export const registryVerifier: VerifierType = {
     });
   },
   verify: async (document) => {
-    const registry: Registry = await fetch("https://opencerts.io/static/registry.json").then((res) => res.json());
+    const registry: Registry = await fetch("https://www.opencerts.io/static/registry.json").then((res) => res.json());
 
     if (utils.isWrappedV3Document(document)) {
       const data = storeToData(registry, document.openAttestationMetadata.proof.value);
