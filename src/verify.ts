@@ -39,6 +39,7 @@ export const OpencertsRegistryVerificationValidData = RegistryEntry.And(
     status: Literal("VALID"),
   })
 );
+
 export type OpencertsRegistryVerificationValidData = Static<typeof OpencertsRegistryVerificationValidData>;
 
 export const OpencertsRegistryVerificationInvalidData = Record({
