@@ -58,10 +58,14 @@ export type OpencertsRegistryVerificationInvalidDataArray = Static<
   typeof OpencertsRegistryVerificationInvalidDataArray
 >;
 
-export type OpencertsRegistryVerifierValidFragmentV2 = ValidVerificationFragment<OpencertsRegistryVerificationValidDataArray>;
-export type OpencertsRegistryVerifierInvalidFragmentV2 = InvalidVerificationFragment<OpencertsRegistryVerificationInvalidDataArray>;
-export type OpencertsRegistryVerifierValidFragmentV3 = ValidVerificationFragment<OpencertsRegistryVerificationValidData>;
-export type OpencertsRegistryVerifierInvalidFragmentV3 = InvalidVerificationFragment<OpencertsRegistryVerificationInvalidData>;
+export type OpencertsRegistryVerifierValidFragmentV2 =
+  ValidVerificationFragment<OpencertsRegistryVerificationValidDataArray>;
+export type OpencertsRegistryVerifierInvalidFragmentV2 =
+  InvalidVerificationFragment<OpencertsRegistryVerificationInvalidDataArray>;
+export type OpencertsRegistryVerifierValidFragmentV3 =
+  ValidVerificationFragment<OpencertsRegistryVerificationValidData>;
+export type OpencertsRegistryVerifierInvalidFragmentV3 =
+  InvalidVerificationFragment<OpencertsRegistryVerificationInvalidData>;
 export type OpencertsRegistryVerifierVerificationFragment =
   | OpencertsRegistryVerifierValidFragmentV2
   | OpencertsRegistryVerifierInvalidFragmentV2
@@ -213,9 +217,8 @@ export const isValid = (
   });
 };
 
-export const getOpencertsRegistryVerifierFragment = verifyUtils.getFragmentByName<OpencertsRegistryVerifierVerificationFragment>(
-  name
-);
+export const getOpencertsRegistryVerifierFragment =
+  verifyUtils.getFragmentByName<OpencertsRegistryVerifierVerificationFragment>(name);
 
 export const verify = (builderOptions: VerificationBuilderOptions) =>
   verificationBuilder([...openAttestationVerifiers, registryVerifier], builderOptions);

@@ -33,7 +33,7 @@
   },
   "types": "dist/ts/src",
   "dependencies": {
-    "@govtechsg/oa-verify": "^7.11.0",
+    "@govtechsg/oa-verify": "^8.1.0",
     "@govtechsg/open-attestation": "^6.5.1",
     "debug": "^4.3.1",
     "node-fetch": "^2.6.1",

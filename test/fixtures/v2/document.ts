@@ -106,69 +106,72 @@ export const documentWithOneDocumentStoreIssuerInRegistryAndValidDnsTxt: Wrapped
     merkleRoot: "abcd",
   },
 };
-export const documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+export const documentWithOneDocumentStoreIssuerNotInRegistryAndValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
-export const documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
+export const documentWithOneDocumentStoreIssuerInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
-export const documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
+export const documentWithOneDocumentStoreIssuerNotInRegistryAndInvalidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
 
 export const documentWithTwoCertificateStoreIssuerInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
   version: SchemaId.v2,
@@ -192,93 +195,96 @@ export const documentWithTwoCertificateStoreIssuerInRegistry: WrappedDocument<v2
   },
 };
 
-export const documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+export const documentWithTwoDocumentStoreIssuerInRegistryWithValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+          },
         },
-      },
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry2}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry2}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
-export const documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
+export const documentWithTwoDocumentStoreIssuerOneInRegistryWithValidDnsTxtAndSecondInvalid: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:example.openattestation.com",
+          },
         },
-      },
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
-export const documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> = {
-  version: SchemaId.v2,
-  data: {
-    issuers: [
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
+export const documentWithTwoDocumentStoreIssuerNotInRegistryWithoutValidDnsTxt: WrappedDocument<v2.OpenAttestationDocument> =
+  {
+    version: SchemaId.v2,
+    data: {
+      issuers: [
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+          },
         },
-      },
-      {
-        name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
-        documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry2}`,
-        identityProof: {
-          type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
-          location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+        {
+          name: "1f525e1b-50c3-49b7-bfbf-0f110453ff3b:string:Singapore Examination and Assessment Board",
+          documentStore: `4b467479-77ed-47c7-bfdf-7be8e6618dcd:string:${issuerNotInRegistry2}`,
+          identityProof: {
+            type: "1350e9f5-920b-496d-b95c-2a2793f5bff6:string:DNS-TXT",
+            location: "291a5524-f1c6-45f8-aebc-d691cf020fdd:string:no.no.com",
+          },
         },
-      },
-    ],
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "abcd",
-    proof: [],
-    merkleRoot: "abcd",
-  },
-};
+      ],
+    },
+    signature: {
+      type: "SHA3MerkleProof",
+      targetHash: "abcd",
+      proof: [],
+      merkleRoot: "abcd",
+    },
+  };
 
 export const documentWithTwoCertificateStoreIssuerWithOneInRegistry: WrappedDocument<v2.OpenAttestationDocument> = {
   version: SchemaId.v2,
@@ -340,8 +346,7 @@ export const documentDnsDidSigned: any = {
         revocation: { type: "85debc04-1698-4a1b-b6ac-7ef7e8f9d4b4:string:NONE" },
         identityProof: {
           type: "767bd2d0-f1e4-4471-81a0-c4056d42f592:string:DNS-DID",
-          key:
-            "5edf0191-5492-4659-891b-84e68793c9be:string:did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
+          key: "5edf0191-5492-4659-891b-84e68793c9be:string:did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
           location: "ad412e6a-a9b6-40e6-bb17-18b097d86833:string:example.tradetrust.io",
         },
       },
