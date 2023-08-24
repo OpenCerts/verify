@@ -37,7 +37,7 @@
     "@govtechsg/open-attestation": "^6.5.1",
     "debug": "^4.3.1",
     "node-fetch": "^2.6.1",
-    "runtypes": "^6.3.0"
+    "runtypes": "^6.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
