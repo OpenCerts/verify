@@ -1,5 +1,5 @@
 {
-  "name": "@govtechsg/opencerts-verify",
+  "name": "@trustvc/opencerts-verify",
   "version": "1.0.1",
   "description": "Library to verify any opencerts document",
   "license": "GPL-3.0",
